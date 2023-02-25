@@ -29,7 +29,13 @@ const Home = () => {
         console.log(error);
       });
   };
-  return <button onClick={() => signOutClicked()}>Home</button>;
+  return (
+    <div className="flex gap-5">
+      <p className="text">HomePage</p>
+      <button onClick={() => signOutClicked()}>SignOut</button>
+      <button onClick={() => navigate("/profile")}>Profile</button>
+    </div>
+  );
 };
 
 export default Home;

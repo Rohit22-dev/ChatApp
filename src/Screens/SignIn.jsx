@@ -24,7 +24,7 @@ const SignIn = () => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
         const user = result.user;
-        console.log(user);
+        console.log(user,"asd");
         dispatch(setUser(user));
         navigate("/home");
       })
