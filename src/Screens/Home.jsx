@@ -34,6 +34,7 @@ const Home = () => {
       <p className="text">HomePage</p>
       <button onClick={() => signOutClicked()}>SignOut</button>
       <button onClick={() => navigate("/profile")}>Profile</button>
+      <p>{user.displayName}</p>
     </div>
   );
 };

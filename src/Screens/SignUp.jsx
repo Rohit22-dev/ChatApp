@@ -27,7 +27,7 @@ const SignUp = () => {
         const user = result.user;
         console.log(user);
         dispatch(setUser(user));
-        navigate("/home");
+        navigate("/");
       })
       .catch((error) => {
         // Handle Errors here.

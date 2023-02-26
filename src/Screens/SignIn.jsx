@@ -24,9 +24,9 @@ const SignIn = () => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
         const user = result.user;
-        console.log(user,"asd");
+        console.log(user, "asd");
         dispatch(setUser(user));
-        navigate("/home");
+        navigate("/");
       })
       .catch((error) => {
         // Handle Errors here.
@@ -46,7 +46,7 @@ const SignIn = () => {
         const user = userCredential.user;
         console.log(user);
         dispatch(setUser(user));
-        navigate("/home");
+        navigate("/");
         // ...
       })
       .catch((error) => {

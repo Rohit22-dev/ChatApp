@@ -5,14 +5,29 @@ import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import "./index.css";
-import reduce from "./store/index";
+import authReducer from "./store";
 
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PURGE,
+  REGISTER,
+  PERSIST,
+} from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import { PersistGate } from "redux-persist/integration/react";
+
+const persistConfig = { key: "root", storage, version: 1 };
+const persistedReducer = persistReducer(persistConfig, authReducer);
 const store = configureStore({
-  reducer: reduce,
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredPaths: ["payload.reloadUserInfo", "payload.reloadListener"],
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }),
 });
@@ -20,9 +35,11 @@ const store = configureStore({
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <PersistGate loading={null} persistor={persistStore(store)}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </PersistGate>
     </Provider>
   </React.StrictMode>
 );
