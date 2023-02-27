@@ -13,7 +13,7 @@ const Home = () => {
   useEffect(() => {
     // console.log(auth.currentUser);
     console.log(user);
-  }, []);
+  }, [user]);
 
   const signOutClicked = async () => {
     await signOut(auth)

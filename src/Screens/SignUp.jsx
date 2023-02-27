@@ -5,19 +5,29 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { auth, provider } from "../config";
+import { auth, provider, storage } from "../config";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { FcGoogle } from "react-icons/fc";
 import { useEffect, useState } from "react";
 import chatting from "../assets/chatting_2.png";
 import { useDispatch } from "react-redux";
 import { setUser } from "../store";
+import pattern from "../assets/pattern2.png";
 
 const SignUp = () => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState({ firstName: "", lastName: "" });
+  const [image, setImage] = useState(null);
+  const [imageURL, setImageURL] = useState("");
   const navigate = useNavigate();
+
+  const handleImageChange = (e) => {
+    if (e.target.files[0]) {
+      setImage(e.target.files[0]);
+    }
+  };
 
   const signInClicked = async () => {
     await signInWithPopup(auth, provider)
@@ -39,28 +49,41 @@ const SignUp = () => {
         // console.log(errorMessage);
       });
   };
-  useEffect(() => {
-    console.log(name);
-  }, [name]);
+  // useEffect(() => {
+  //   console.log(name, image);
+  // }, [name, image]);
 
   const handleFormSubmit = async () => {
     await createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        console.log(user);
+        // console.log(user);
 
-        updateProfile(auth.currentUser, {
-          displayName: name.firstName + " " + name.lastName,
-        })
+        const imageName = `${user.uid}-${image.name}`;
+        const imageRef = ref(storage, imageName);
+        uploadBytes(imageRef, image)
           .then(() => {
-            // Update successful
-            console.log("Display name added to user metadata");
+            getDownloadURL(imageRef)
+              .then((item) => {
+                console.log(item);
+
+                setImageURL(item);
+                updateProfile(auth.currentUser, {
+                  displayName: name.firstName + " " + name.lastName,
+                  photoURL: imageURL,
+                })
+                  .then(() => {
+                    console.log(imageURL);
+                    console.log("Display name & image added to user metadata");
+                  })
+                  .catch((error) => {
+                    console.log(error, "upload error");
+                  });
+              })
+              .catch((e) => console.log(e));
           })
-          .catch((error) => {
-            // An error occurred while updating the profile
-            console.log(error);
-          });
+          .catch((e) => console.log(e));
 
         dispatch(setUser(user));
         navigate("/signin");
@@ -76,7 +99,8 @@ const SignUp = () => {
 
   return (
     <div className="grid h-screen w-screen place-items-center bg-neutral-100">
-      <div className="grid grid-cols-1 grid-rows-2 md:grid-cols-2 md:grid-rows-1 lg:w-1/2 w-3/4 min-h-3/4 bg-neutral-200 rounded-lg neu p-4 gap-2">
+      <img src={pattern} className="h-full w-full absolute object-fill" />
+      <div className="z-10 grid grid-cols-1 grid-rows-2 md:grid-cols-2 md:grid-rows-1 lg:w-1/2 w-3/4 h-fit bg-clip-content rounded-lg neu p-4 gap-2">
         <div className="bg-cyan-500 rounded-lg flex justify-center gap-4 md:grid place-items-center relative">
           <p className="font-display text-5xl text-neutral-800 md:absolute top-16">
             Sign Up
@@ -89,18 +113,18 @@ const SignUp = () => {
         </div>
         <div className="flex flex-col justify-center bg-white rounded-lg border border-cyan-500 divide-y-2">
           <div className="p-3 flex flex-col gap-4">
-            <div className="flex flex-1 justify-between gap-2">
+            <div className="grid grid-cols-2 gap-2">
               <input
                 placeholder="First Name"
                 type="text"
                 onChange={(e) => setName({ firstName: e.target.value })}
-                className="border-2 border-neutral-300 rounded-md p-2 focus:border-cyan-500 outline-none caret-cyan-500 flex-[0.5]"
+                className="border-2 border-neutral-300 rounded-md p-2 focus:border-cyan-500 outline-none caret-cyan-500 "
               />
               <input
                 placeholder="Last Name"
                 type="text"
                 onChange={(e) => setName({ lastName: e.target.value })}
-                className="border-2 border-neutral-300 rounded-md p-2 focus:border-cyan-500 outline-none caret-cyan-500  flex-[0.5]"
+                className="border-2 border-neutral-300 rounded-md p-2 focus:border-cyan-500 outline-none caret-cyan-500 "
               />
             </div>
             <input
@@ -114,6 +138,17 @@ const SignUp = () => {
               type="password"
               onChange={(e) => setPassword(e.target.value)}
               className="border-2 border-neutral-300 rounded-md p-2 focus:border-cyan-500 outline-none caret-cyan-500"
+            />
+            <input
+              type="file"
+              onChange={handleImageChange}
+              accept="image/png, image/jpeg, image/webp, image/jpg"
+              className="block w-full text-md text-slate-500 file:cursor-pointer
+              file:mr-4 file:py-2 file:px-4
+              file:rounded-full file:border-0
+              file:text-sm file:font-semibold
+              file:bg-cyan-100 file:text-cyan-700
+              hover:file:bg-cyan-200"
             />
             {/* <input type="file" className="" onChange={(e)=>setImage(e.target.value)} /> */}
 

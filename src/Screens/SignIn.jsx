@@ -4,13 +4,13 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { Button } from "../components/Button";
 import { auth, provider } from "../config";
 import { FcGoogle } from "react-icons/fc";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import chatting from "../assets/chatting.png";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../store";
+import pattern from "../assets/pattern2.png";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -58,8 +58,9 @@ const SignIn = () => {
   };
 
   return (
-    <div className="grid h-screen w-screen place-items-center bg-neutral-100">
-      <div className="grid grid-cols-1 grid-rows-2 md:grid-cols-2 md:grid-rows-1 lg:w-1/2 w-3/4 h-3/4 bg-neutral-200 rounded-lg neu p-4 gap-2">
+    <div className="grid h-screen w-screen place-items-center bg-neutral-100 relative">
+      <img src={pattern} className="h-full w-full absolute object-fill" />
+      <div className="z-10 grid grid-cols-1 grid-rows-2 md:grid-cols-2 md:grid-rows-1 lg:w-1/2 w-3/4 h-3/4 bg-clip-content rounded-lg neu p-4 gap-2">
         <div className="bg-orange-500 rounded-lg flex justify-center gap-4 md:grid place-items-center relative">
           <p className="font-display text-5xl text-neutral-800 md:absolute top-16">
             Sign In
