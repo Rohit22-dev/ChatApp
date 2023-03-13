@@ -1,40 +1,32 @@
-import { signOut } from "firebase/auth";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { auth } from "../config";
-import { setUser } from "../store";
+import { useEffect, useState } from "react";
+import { useMediaQuery } from "react-responsive";
+import Chat from "../components/Chat";
+import Input from "../components/Input";
+import Navbar from "../components/Navbar";
+import Sidebar from "../components/Sidebar";
 
 const Home = () => {
-  const navigate = useNavigate();
-  const user = useSelector((state) => state.user);
-  const dispatch = useDispatch();
-
+  const [sideBarToggle, setSideBarToggle] = useState(false);
+  const isLargeScreen = useMediaQuery({
+    query: "(min-width: 1024px)",
+  });
   useEffect(() => {
-    // console.log(auth.currentUser);
-    console.log(user);
-  }, [user]);
-
-  const signOutClicked = async () => {
-    await signOut(auth)
-      .then(() => {
-        // Sign-out successful.
-        console.log("Signed out sucessfully");
-        dispatch(setUser(null));
-        navigate("/signin");
-        console.log("object", user);
-      })
-      .catch((error) => {
-        // An error happened.
-        console.log(error);
-      });
-  };
+    if (isLargeScreen) {
+      setSideBarToggle(true);
+    } else {
+      setSideBarToggle(false);
+    }
+  }, [isLargeScreen]);
   return (
-    <div className="flex gap-5">
-      <p className="text">HomePage</p>
-      <button onClick={() => signOutClicked()}>SignOut</button>
-      <button onClick={() => navigate("/profile")}>Profile</button>
-      <p>{user.displayName}</p>
+    <div className="flex flex-col bg-base-300 h-screen">
+      <Navbar
+        setSideBarToggle={setSideBarToggle}
+        sideBarToggle={sideBarToggle}
+      />
+      <div className="flex flex-1">
+        {sideBarToggle && <Sidebar />}
+        <Chat className="flex-1" />
+      </div>
     </div>
   );
 };

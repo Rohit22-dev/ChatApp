@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   mode: "light",
   user: null,
-  token: null,
+  chatId: "null",
+  chatUser: null,
 };
 
 export const authSlice = createSlice({
@@ -26,9 +27,27 @@ export const authSlice = createSlice({
         state.user = null;
       }
     },
+    setChatUser: (state, action) => {
+      if (action.payload) {
+        state.chatUser = {
+          uid: action.payload.uid,
+          email: action.payload.email,
+          displayName: action.payload.displayName,
+          photoURL: action.payload.photoURL,
+          // Add other necessary properties here
+        };
+        state.chatId =
+          state.user.uid > action.payload.uid
+            ? state.user.uid + action.payload.uid
+            : action.payload.uid + state.user.uid;
+      } else {
+        state.chatUser = {};
+        state.chatId = "null";
+      }
+    },
   },
 });
 
-export const { setMode, setUser } = authSlice.actions;
+export const { setMode, setUser, setChatUser } = authSlice.actions;
 const reduce = authSlice.reducer;
 export default reduce;

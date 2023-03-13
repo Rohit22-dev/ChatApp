@@ -9,3 +9,28 @@
     -10px -10px 12px 0 rgba(240, 240, 240, 0.8);
 }
 
+html,
+body {
+  height: 100%;
+  width: 100%;
+  /* background-color: #1c1e21; */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none;
+}
+
+input {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.15);
+  /* box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); */
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  /* border-radius: 10px; */
+  /* border: 1px solid rgba(255, 255, 255, 0.18); */
+}

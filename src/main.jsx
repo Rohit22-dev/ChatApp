@@ -19,6 +19,7 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { PersistGate } from "redux-persist/integration/react";
+import { IKContext } from "imagekitio-react";
 
 const persistConfig = { key: "root", storage, version: 1 };
 const persistedReducer = persistReducer(persistConfig, authReducer);
@@ -36,9 +37,16 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistStore(store)}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <IKContext
+          publicKey="public_zwkRaHp3R4IiTnTJYSpKQi1N/Do="
+          urlEndpoint="https://ik.imagekit.io/octivion"
+          transformationPosition="path"
+          authenticationEndpoint="http://www.yourserver.com/auth"
+        >
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </IKContext>
       </PersistGate>
     </Provider>
   </React.StrictMode>

@@ -1,64 +1,85 @@
 import { useSelector } from "react-redux";
 import pattern from "../assets/pattern2.png";
-import avatar from "../assets/man.png";
 import { useNavigate } from "react-router-dom";
-import { FaTrashAlt } from "react-icons/fa";
+import {
+  FaGithubAlt,
+  FaGlobe,
+  FaLinkedinIn,
+  FaSlackHash,
+  FaTrashAlt,
+} from "react-icons/fa";
 import { FaHome } from "react-icons/fa";
 import { BsImageFill } from "react-icons/bs";
+import { BsShieldLockFill } from "react-icons/bs";
+import { AiTwotoneEdit } from "react-icons/ai";
 import { useState } from "react";
-import Confirm from "./Confirm";
+import { ProfileButton } from "../components/Button";
 
 const Profile = () => {
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
-  const [toggleDelete, setToggleDelete] = useState(false);
+  const [toggleDelete, setToggleDelete] = useState(true);
+  // const [getCredentials, setGetCredentials] = useState(false);
 
   return (
-    <div className=" w-screen h-screen grid place-items-center p-5 bg-neutral-100 relative">
+    <div className=" w-screen h-screen grid place-items-center bg-base-100 relative">
       <div
-        className="hover:cursor-pointer z-10 top-8 left-12 absolute p-3 border-b-4 border-l-4 border-neutral-800 bg-rose-500 rounded-full rotate-45 rounded-bl-none group"
+        className="hover:cursor-pointer z-10 top-3 left-5 absolute p-3 border-primary bg-base-200 rounded-full rounded-bl-none rotate-45 group border-l-4 border-b-4 border-2"
         onClick={() => navigate("/")}
       >
         <FaHome
           size={28}
+          color="white"
           className="-rotate-45 group-hover:scale-110 duration-150 ease-in-out"
         />
       </div>
-      <img src={pattern} className="h-full w-full absolute object-fill" />
-      <div className="z-10 grid grid-cols-1 grid-rows-2 md:grid-cols-2 md:grid-rows-1 w-3/4 h-3/4 rounded-lg neu p-5 gap-2 bg-clip-content">
-        <div className="bg-rose-500 rounded-lg flex flex-col items-center justify-center gap-8 ">
-          <div className="w-2/5 border-[6px] rounded-full  border-neutral-400 bg-white overflow-hidden">
-            <img
-              src={user && user.photoURL ? user.photoURL : avatar}
-              className="w-full h-full object-fill"
-            />
+      <div className="hero min-h-1/2 w-3/4 md:w-3/5 lg:w-1/2 rounded-lg bg-base-300">
+        <div className="hero-content flex flex-col">
+          <img src={user.photoURL} className="w-40 rounded-lg shadow-2xl" />
+          <div className="flex flex-col items-center">
+            <h1 className="text-5xl font-bold">{user.displayName}</h1>
+            <p className="py-6 sm:mx-12 md:mx-20 lg:mx-32">
+              This page is under construction. Please be patient . I will try to
+              complete it with some innovative design and ideas ASAP.
+            </p>
+
+            <div className="tooltip" data-tip="Under Construction">
+              <button className="btn btn-primary">Get Started</button>
+            </div>
           </div>
-          <p className="font-display text-4xl text-neutral-800">
-            {user && user.displayName ? user.displayName : "User Name"}
-          </p>
-          <p className="font-display text-2xl text-neutral-800">
-            {user && user.email ? user.email : "User Email"}
-          </p>
-        </div>
-        <div className="flex gap-3 justify-center items-center bg-neutral-100 rounded-lg">
-          <button className="bg-lime-300 hover:bg-lime-400 group p-5 rounded-full rounded-br-none">
-            <BsImageFill
-              size={32}
-              className="group-hover:scale-110 ease-in-out duration-200"
-            />
-          </button>
-          <button
-            className="bg-teal-300 hover:bg-teal-400 group p-5 rounded-full rounded-bl-none"
-            onClick={() => setToggleDelete(true)}
-          >
-            <FaTrashAlt
-              size={32}
-              className="group-hover:scale-110 ease-in-out duration-200"
-            />
-          </button>
         </div>
       </div>
-      {toggleDelete && <Confirm setToggleDelete={setToggleDelete} />}
+      <footer className="footer items-center p-4 bg-neutral absolute bottom-0 text-neutral-content">
+        <div className="items-center grid-flow-col">
+          <FaSlackHash size={36} />
+          <p>
+            Copyright © 2023 - All right reserved. Be careful with my creation
+          </p>
+        </div>
+        <div className="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
+          <a
+            className="cursor-pointer"
+            target="_blank"
+            href="https://github.com/Rohit22-dev"
+          >
+            <FaGithubAlt size={26} />
+          </a>
+          <a
+            className="cursor-pointer"
+            target="_blank"
+            href="https://rkcode.codes/"
+          >
+            <FaGlobe size={24} />
+          </a>
+          <a
+            className="cursor-pointer"
+            target="_blank"
+            href="https://www.linkedin.com/in/rohit-kumar-78322b207"
+          >
+            <FaLinkedinIn size={24} />
+          </a>
+        </div>
+      </footer>
     </div>
   );
 };

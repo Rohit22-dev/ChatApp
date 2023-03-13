@@ -6,6 +6,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import { auth, provider } from "../config";
 import { FcGoogle } from "react-icons/fc";
+import { BsFillEyeFill } from "react-icons/bs";
+import { BsFillEyeSlashFill } from "react-icons/bs";
 import { useState } from "react";
 import chatting from "../assets/chatting.png";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,7 +16,9 @@ import pattern from "../assets/pattern2.png";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
+  const [seePSW, setSeePSW] = useState(true);
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -39,6 +43,7 @@ const SignIn = () => {
   };
 
   const handleFormSubmit = async () => {
+    setLoading(true);
     console.log("object");
     await signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
@@ -46,6 +51,7 @@ const SignIn = () => {
         const user = userCredential.user;
         console.log(user);
         dispatch(setUser(user));
+        setLoading(false);
         navigate("/");
         // ...
       })
@@ -71,10 +77,11 @@ const SignIn = () => {
             className="h-48 object-cover z-10 hidden sm:block"
           />
         </div>
+        
         <div className="flex flex-col justify-center bg-white rounded-lg border border-orange-500 divide-y-2">
           <div
             // onSubmit={() => handleFormSubmit()}
-            className="p-3 flex flex-col gap-4"
+            className="p-3 flex flex-col gap-4 text-black"
           >
             <input
               placeholder="Email"
@@ -82,12 +89,21 @@ const SignIn = () => {
               onChange={(e) => setEmail(e.target.value)}
               className="border-2 border-neutral-300 rounded-md p-2 focus:border-orange-500 outline-none caret-orange-500"
             />
-            <input
-              placeholder="Passsword"
-              type="password"
-              onChange={(e) => setPassword(e.target.value)}
-              className="border-2 border-neutral-300 rounded-md p-2 focus:border-orange-500 outline-none caret-orange-500"
-            />
+            <div className="relative">
+              <input
+                placeholder="Passsword"
+                type={seePSW ? "password" : "text"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="border-2 w-full border-neutral-300 rounded-md p-2 focus:border-cyan-500 outline-none caret-cyan-500"
+              />
+              <div
+                className="absolute right-3 top-0 translate-y-[80%] cursor-pointer scale-125 text-neutral-800"
+                onClick={() => setSeePSW(!seePSW)}
+              >
+                {seePSW ? <BsFillEyeSlashFill /> : <BsFillEyeFill />}
+              </div>
+            </div>
 
             {/* <Button
               color="orange"
@@ -100,6 +116,7 @@ const SignIn = () => {
             >
               Submit
             </button>
+            {loading && <span className="text-sm font-semibold" >Loading data. Please wait...</span> }
           </div>
 
           <div className="p-3 flex flex-col">

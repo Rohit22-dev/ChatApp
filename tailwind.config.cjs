@@ -9,5 +9,5 @@ module.exports = {
       heading: ["Rubik", "sans-serif"],
     },
   },
-  plugins: [],
+  plugins: [require("daisyui")],
 };
