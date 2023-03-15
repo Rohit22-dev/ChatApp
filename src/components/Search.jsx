@@ -87,7 +87,7 @@ const Search = () => {
       <input
         type="text"
         placeholder="Find a user"
-        className=" w-full max-w-xs placeholder:text-white text-white outline-none pb-4 px-2"
+        className=" w-full max-w-xs placeholder:text-base-content text-base-content outline-none pb-4 px-2"
         onKeyDown={handleKey}
         onChange={(e) => setUsername(e.target.value)}
         value={username}

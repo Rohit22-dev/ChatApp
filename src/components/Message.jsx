@@ -26,7 +26,7 @@ const Message = ({ message }) => {
         message.senderId === currentUser.uid ? "chat-end" : "chat-start"
       } `}
     >
-      <time className="text-xs opacity-50 mr-1 mb-1">
+      <time className="text-xs opacity-70 mr-1 mb-1">
         {time(message.date.seconds)}
       </time>
       <div className="chat-image avatar">
@@ -41,7 +41,7 @@ const Message = ({ message }) => {
           />
         </div>
       </div>
-      <div className="chat-bubble">
+      <div className="chat-bubble chat-bubble-primary">
         <p>{message.text}</p>
         {message.img && <img src={message.img} alt="" />}
       </div>

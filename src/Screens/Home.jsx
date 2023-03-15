@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import Chat from "../components/Chat";
 import Input from "../components/Input";
@@ -7,6 +8,7 @@ import Sidebar from "../components/Sidebar";
 
 const Home = () => {
   const [sideBarToggle, setSideBarToggle] = useState(false);
+  const mode = useSelector((state) => state.mode);
   const isLargeScreen = useMediaQuery({
     query: "(min-width: 1024px)",
   });
@@ -18,7 +20,10 @@ const Home = () => {
     }
   }, [isLargeScreen]);
   return (
-    <div className="flex flex-col bg-base-300 h-screen">
+    <div
+      className="flex flex-col h-screen"
+      data-theme={mode === "light" ? "emerald" : "dark"}
+    >
       <Navbar
         setSideBarToggle={setSideBarToggle}
         sideBarToggle={sideBarToggle}

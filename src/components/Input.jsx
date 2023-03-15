@@ -84,17 +84,17 @@ const Input = () => {
   };
 
   return (
-    <div className="p-2 bg-neutral-200 flex justify-between">
+    <div className="p-2 bg-base-200 flex justify-between">
       <input
         type="text"
         placeholder="Type something..."
         onChange={(e) => setText(e.target.value)}
         value={text}
-        className="w-full outline-none text-black break-words placeholder:text-zinc-600"
+        className="w-full outline-none text-base-content break-words placeholder:text-base-content"
         onKeyDown={handleKey}
       />
       <div className="flex items-center gap-2">
-        <MdOutlineAttachFile size={24} className="text-zinc-600" />
+        <MdOutlineAttachFile size={24} className="text-base-content" />
         <input
           type="file"
           style={{ display: "none" }}
@@ -103,9 +103,9 @@ const Input = () => {
         />
 
         <label htmlFor="file">
-          <BsImageFill size={24} color="gray" className="cursor-pointer" />
+          <BsImageFill size={24} className="cursor-pointer text-primary" />
         </label>
-        <button onClick={handleSend} className="btn btn-sm">
+        <button onClick={handleSend} className="btn btn-sm btn-primary">
           Send
         </button>
       </div>

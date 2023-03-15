@@ -14,9 +14,9 @@ const Chat = () => {
   return (
     <div className="flex flex-col justify-between flex-1">
       {/* Top */}
-      <div className="flex p-4 px-4 justify-between items-center h-fit w-full ">
-        <p className="font-semibold tracking-wider">{user?.displayName}</p>
-        <div className="flex gap-4">
+      <div className="flex p-4 px-4 justify-between items-center h-fit w-full bg-base-200">
+        <p className="font-semibold tracking-wider text-base-content">{user?.displayName}</p>
+        <div className="flex gap-4 text-base-content">
           <FaVideo />
           <IoMdCall />
           <SlOptions />

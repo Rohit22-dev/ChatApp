@@ -33,7 +33,7 @@ const Sidebar = () => {
 
   return (
     <div>
-      <ul className="menu p-4 w-80 lg:w-96 h-full bg-base-200 text-base-content divide-y-[1px] divide-neutral-700 ">
+      <ul className="menu p-4 w-80 lg:w-96 h-full bg-base-100 text-base-content divide-y-[1px] divide-neutral-700 ">
         <Search />
         {Object.entries(chats)?.map((chat) => (
           <li key={chat[0]} onClick={() => handleSelect(chat[1].userInfo)}>

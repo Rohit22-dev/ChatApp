@@ -13,10 +13,11 @@ import { BsFillEyeFill } from "react-icons/bs";
 import { BsFillEyeSlashFill } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import chatting from "../assets/chatting_2.png";
-import { useDispatch } from "react-redux";
-import { setUser } from "../store";
+import { useDispatch, useSelector } from "react-redux";
+import { setMode, setUser } from "../store";
 import pattern from "../assets/pattern2.png";
 import { doc, setDoc } from "firebase/firestore";
+import { FaMoon, FaSun } from "react-icons/fa";
 
 const SignUp = () => {
   const dispatch = useDispatch();
@@ -27,6 +28,7 @@ const SignUp = () => {
   const [image, setImage] = useState(null);
   const [seePSW, setSeePSW] = useState(true);
   const navigate = useNavigate();
+  const mode = useSelector((state) => state.mode);
 
   const handleImageChange = (e) => {
     if (e.target.files[0]) {
@@ -179,12 +181,36 @@ const SignUp = () => {
     }
   };
 
+  const handleClick = () => {
+    dispatch(setMode());
+  };
+
   return (
-    <div className="grid h-screen w-screen place-items-center bg-neutral-100 ">
-      <img src={pattern} className="h-full w-full absolute object-fill" />
-      <div className="z-10 grid grid-cols-1 grid-rows-2 md:grid-cols-2 md:grid-rows-1 lg:w-1/2 w-3/4 min-h-[75%] bg-clip-content rounded-lg neu p-4 gap-2">
-        <div className="bg-cyan-500 rounded-lg flex justify-center gap-4 md:grid place-items-center relative">
-          <p className="font-display text-5xl text-neutral-800 md:absolute top-16">
+    <div
+      className="grid h-screen w-screen place-items-center bg-base-100 "
+      data-theme={mode === "light" ? "emerald" : "dark"}
+    >
+      {/* <img src={pattern} className="h-full w-full absolute object-fill" /> */}
+
+      <div className="absolute top-5 right-10 border border-primary-focus rounded-full p-2 cursor-pointer">
+        {mode === "light" ? (
+          <FaSun
+            className="text-primary"
+            onClick={() => handleClick()}
+            size={26}
+          />
+        ) : (
+          <FaMoon
+            className="text-primary"
+            onClick={() => handleClick()}
+            size={26}
+          />
+        )}
+      </div>
+
+      <div className="z-10 grid grid-cols-1 grid-rows-2 md:grid-cols-2 md:grid-rows-1 lg:w-1/2 w-3/4 min-h-[75%] bg-clip-content rounded-lg shadow-lg shadow-base-300 p-4 gap-2">
+        <div className="bg-primary rounded-lg flex justify-center gap-4 md:grid place-items-center relative">
+          <p className="font-display text-5xl text-base-content md:absolute top-16">
             Sign Up
           </p>
           <img
@@ -193,8 +219,8 @@ const SignUp = () => {
             className="h-48 object-cover z-10 hidden sm:block"
           />
         </div>
-        <div className="flex flex-col justify-center bg-white rounded-lg border border-cyan-500 divide-y-2">
-          <div className="p-3 flex flex-col gap-4 text-black">
+        <div className="flex flex-col justify-center bg-base-100 rounded-lg border border-primary divide-y-2">
+          <div className="p-3 flex flex-col gap-4 text-base-content">
             <div className="grid grid-cols-2 gap-2">
               <input
                 placeholder="First Name"
@@ -202,20 +228,20 @@ const SignUp = () => {
                 onChange={(e) =>
                   setName({ ...name, firstName: e.target.value })
                 }
-                className="border-2 border-neutral-300 rounded-md p-2 focus:border-cyan-500 outline-none caret-cyan-500 "
+                className="border-2 border-base-300 rounded-md p-2 focus:border-primary outline-none caret-primary "
               />
               <input
                 placeholder="Last Name"
                 type="text"
                 onChange={(e) => setName({ ...name, lastName: e.target.value })}
-                className="border-2 border-neutral-300 rounded-md p-2 focus:border-cyan-500 outline-none caret-cyan-500 "
+                className="border-2 border-base-300 rounded-md p-2 focus:border-primary outline-none caret-primary "
               />
             </div>
             <input
               placeholder="Email"
               type="email"
               onChange={(e) => setEmail(e.target.value)}
-              className="border-2 border-neutral-300 rounded-md p-2 focus:border-cyan-500 outline-none caret-cyan-500"
+              className="border-2 border-base-300 rounded-md p-2 focus:border-primary outline-none caret-primary"
             />
             <div className="relative">
               <input
@@ -223,10 +249,10 @@ const SignUp = () => {
                 type={seePSW ? "password" : "text"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="border-2 w-full border-neutral-300 rounded-md p-2 focus:border-cyan-500 outline-none caret-cyan-500"
+                className="border-2 w-full border-base-300 rounded-md p-2 focus:border-primary outline-none caret-primary"
               />
               <div
-                className="absolute right-3 top-0 translate-y-[80%] cursor-pointer scale-125 text-neutral-800"
+                className="absolute right-3 top-0 translate-y-[80%] cursor-pointer scale-125 text-base-content"
                 onClick={() => setSeePSW(!seePSW)}
               >
                 {seePSW ? <BsFillEyeSlashFill /> : <BsFillEyeFill />}
@@ -237,19 +263,19 @@ const SignUp = () => {
               required
               onChange={handleImageChange}
               accept="image/png, image/jpeg, image/webp, image/jpg"
-              className="block w-full text-md text-slate-500 file:cursor-pointer
+              className="block w-full text-md text-base-content file:cursor-pointer
               file:mr-4 file:py-2 file:px-4
               file:rounded-full file:border-0
               file:text-sm file:font-semibold
-              file:bg-cyan-100 file:text-cyan-700
-              hover:file:bg-cyan-200"
+              file:bg-primary file:text-base-content
+              hover:file:bg-primary"
             />
             {/* <input type="file" className="" onChange={(e)=>setImage(e.target.value)} /> */}
 
-            {/* <Button type="submit" color="cyan" value="Submit" /> */}
+            {/* <Button type="submit" color="primarylue="Submit" /> */}
 
             <button
-              className="bg-cyan-300 rounded-md p-2 border-2 border-cyan-500 text-slate-700 text-md font-bold"
+              className="bg-primary rounded-md p-2 border-2 border-primary-focus text-base-content text-md font-bold"
               onClick={() => handleFormSubmit()}
             >
               Submit
@@ -263,18 +289,18 @@ const SignUp = () => {
 
           <div className="p-3 flex flex-col">
             <button
-              className="bg-cyan-300 rounded-md p-2 border-2 border-cyan-500 flex justify-between items-center"
+              className="bg-primary rounded-md p-2 border-2 border-primary-focus flex justify-between items-center"
               onClick={() => signInClicked()}
             >
               <FcGoogle size={28} />
-              <p className="text-slate-700 text-md font-bold flex-1">
+              <p className="text-base-content text-md font-bold flex-1">
                 SignUp with google
               </p>{" "}
             </button>
-            <p className="text-sm font-semibold m-1 text-neutral-700">
+            <p className="text-sm font-semibold m-1 text-base-700">
               Already have an account!{" "}
               <span
-                className="text-cyan-600 cursor-pointer"
+                className="text-primary cursor-pointer"
                 onClick={() => navigate("/signIn")}
               >
                 SignIn
