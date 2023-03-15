@@ -71,7 +71,7 @@ const Navbar = ({ sideBarToggle, setSideBarToggle }) => {
       <div className="">
         {mode === "light" ? (
           <FaSun
-            className="text-accent"
+            className="text-base-content"
             onClick={() => handleClick()}
             size={26}
           />
