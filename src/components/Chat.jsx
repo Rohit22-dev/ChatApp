@@ -8,9 +8,7 @@ import { useEffect } from "react";
 
 const Chat = () => {
   const user = useSelector((state) => state.chatUser);
-  useEffect(() => {
-    console.log(user);
-  });
+  
   return (
     <div className="flex flex-col justify-between flex-1">
       {/* Top */}
