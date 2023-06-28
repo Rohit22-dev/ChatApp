@@ -7,7 +7,7 @@ A chatapp app build with react and integrated with firebase authentication, stor
 
 Deployed on [Netlify](https://app.netlify.com/teams/rohit22-dev/overview).
 
-You can check the app at (https://o-chatapp.netlify.app)
+You can check the app at (https://o-chatapp.vercel.app)
 
 
 https://user-images.githubusercontent.com/100214144/229091556-1aefdf33-eac5-4fbe-b5f7-fdddbe043027.mp4
